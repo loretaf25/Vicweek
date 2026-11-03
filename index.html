@@ -45,6 +45,7 @@ h1.wk{overflow-wrap:anywhere;font-family:'Cormorant Garamond',Georgia,serif;font
 .bh .nm{flex:1;font-weight:600;font-size:1.1rem}
 .pill{background:#fdf3ec;border-radius:99px;padding:4px 12px;font-size:.8rem;color:var(--muted);white-space:nowrap}
 .plus{width:36px;height:36px;border-radius:50%;border:none;background:var(--pri);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;flex-shrink:0}
+.gavg{font-size:1.4rem;font-weight:600;min-width:56px;text-align:right}
 .chev{font-size:1.5rem;color:var(--muted);transition:transform .2s;width:14px;text-align:center}.chev.o{transform:rotate(90deg)}
 .bb{padding:0 18px 14px;border-top:1px solid var(--bdr)}
 .tabs{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:0 auto 18px;background:rgba(255,255,255,.75);padding:5px;border-radius:99px;width:fit-content;max-width:100%}
@@ -145,7 +146,7 @@ function applyTheme(){document.title=st.appName;var t=st.theme,r=document.docume
  else{r.setProperty('--bg-img','none');r.setProperty('--bg-col',t.bgColor);}}
 function setBg(o){for(var k in o)st.theme[k]=o[k];save();}
 var view='horario',filter=null,selCol=PAL[0],editId=null;
-var NAV=[['horario','','Horario'],['tareas','','Tareas'],['calendario','','Calendario'],['notas','','Notas'],['config','','Configuración']];
+var NAV=[['horario','','Horario'],['tareas','','Tareas'],['calendario','','Calendario'],['notas','','Calificaciones'],['config','','Configuración']];
 var ICONS={horario:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
  tareas:'<rect x="3" y="3" width="18" height="18" rx="6"/><path d="M8 12.5l3 3 5-6"/>',
  calendario:'<rect x="3" y="4.5" width="18" height="16.5" rx="5"/><path d="M3 10h18M8 2.5v4M16 2.5v4"/><circle cx="8" cy="14.5" r=".7"/><circle cx="12" cy="14.5" r=".7"/><circle cx="16" cy="14.5" r=".7"/><circle cx="8" cy="18" r=".7"/><circle cx="12" cy="18" r=".7"/>',
@@ -301,13 +302,16 @@ function noteGroups(){var g=[],map={},dirty=false;
   else{x.names.push(c.name);var o=st.notes[c.id];if(o&&o.length){st.notes[x.id]=(st.notes[x.id]||[]).concat(o);st.notes[c.id]=[];dirty=true;}}});
  if(dirty){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
  return g.map(function(x){return{id:x.id,color:x.color,name:x.names.join(' + ')};});}
+var nOpen={};
 function vNotas(m){
  var mx=st.maxGrade;
- m.appendChild(head('Notas','Agrega evaluaciones por curso con su porcentaje y obtén tu promedio ponderado (escala 0–'+mx+').'));
+ m.appendChild(head('Calificaciones'));
  if(!st.courses.length)m.appendChild(h('div',{class:'card empty'},['Primero crea tus cursos en Configuración.']));
  noteGroups().forEach(function(c){
   var list=st.notes[c.id]=st.notes[c.id]||[],r=calc(c.id);
-  var card=h('div',{class:'card ch',style:'border-color:'+c.color},[h('h2',{},[c.name])]);
+  var open=!!nOpen[c.id],bar=h('div',{class:'bar'}),card=h('div',{class:'bb',style:'padding-top:12px'});
+  bar.appendChild(h('div',{class:'bh',style:'border-left-color:'+c.color,onclick:function(){nOpen[c.id]=!open;render();}},[
+   h('div',{class:'nm'},[c.name]),h('span',{class:'gavg'},[r.avg===null?'—':r.avg.toFixed(2)]),h('span',{class:'chev'+(open?' o':'')},['›'])]));
   if(list.length)card.appendChild(h('div',{class:'ev sub',style:'margin-bottom:2px'},[h('span',{},['Evaluación']),h('span',{},['Nota']),h('span',{},['Peso %']),h('span')]));
   list.forEach(function(e,i){
    card.appendChild(h('div',{class:'ev'},[
@@ -326,14 +330,14 @@ function vNotas(m){
    h('div',{},[h('div',{class:'sub'},['Promedio ponderado']),h('b',{},[r.avg===null?'—':r.avg.toFixed(2)])]),
    h('div',{style:'text-align:right'},[h('div',{class:'sub'},['Peso total: '+(Math.round(r.tw*100)/100)+'% · Calificado: '+(Math.round(r.w*100)/100)+'%']),
     list.length&&Math.abs(r.tw-100)>0.01?h('div',{class:'warn'},['Los pesos no suman 100%']):null])]));
-  m.appendChild(card);});
+  if(open)bar.appendChild(card);m.appendChild(bar);});
 }
 
 /* ---------- Configuración ---------- */
 var cfgTab='apariencia';
 function vConfig(m){
  m.appendChild(head('Configuración'));
- var TABS=[['apariencia','Apariencia'],['horario','Horario'],['cursos','Cursos'],['notas','Notas'],['general','General']];
+ var TABS=[['apariencia','Apariencia'],['horario','Horario'],['cursos','Cursos'],['notas','Calificaciones'],['general','General']];
  m.appendChild(h('div',{class:'tabs'},TABS.map(function(x){return h('button',{class:'tab'+(cfgTab===x[0]?' on':''),onclick:function(){cfgTab=x[0];render();}},[x[1]]);})));
  function put(tab,node){if(cfgTab===tab)m.appendChild(node);}
  // Apariencia
@@ -403,7 +407,7 @@ function vConfig(m){
  // Preferencias
  put('general',h('div',{class:'card'},[h('h2',{},['Nombre de la app']),
   h('input',{class:'inp',maxlength:24,value:st.appName,style:'width:100%;max-width:320px',onchange:function(e){st.appName=e.target.value.trim()||'VicWeek';save();}})]));
- put('notas',h('div',{class:'card'},[h('h2',{},['Notas']),
+ put('notas',h('div',{class:'card'},[h('h2',{},['Calificaciones']),
   h('label',{class:'row',style:'font-weight:600'},['Nota máxima de tu escala:',h('input',{class:'inp',type:'number',min:1,value:st.maxGrade,style:'width:80px',onchange:function(e){st.maxGrade=parseFloat(e.target.value)||20;save();}})])]));
 }
 
