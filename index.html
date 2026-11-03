@@ -21,7 +21,7 @@ body{font-size:15px;letter-spacing:.01em}
 body{margin:0;background-color:var(--bg-col,#f6f1e7);background-image:var(--bg-img);background-size:cover;background-position:center;background-attachment:fixed;color:var(--txt);display:flex;min-height:100vh}
 aside{width:272px;background:var(--side);backdrop-filter:blur(6px);color:#8a6f66;border-right:1px solid #f8dcd6;padding:26px 16px;position:fixed;top:0;bottom:0;left:0;display:flex;flex-direction:column;gap:8px;z-index:50}
 .logo{display:flex;align-items:center;gap:12px;padding:4px 10px 24px;color:var(--txt);font-weight:600}
-.wk-logo{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:2rem;line-height:1;letter-spacing:.04em}
+.wk-logo{display:block;max-width:150px;overflow-wrap:anywhere;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:2rem;line-height:1;letter-spacing:.04em}
 .logo small{display:block;font-weight:500;font-size:.68rem;color:#b49a90}
 .nav{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;border:none;background:none;color:inherit;font-size:1.05rem;font-weight:600;cursor:pointer;text-align:left;width:100%}
 .nav:hover{background:color-mix(in srgb,var(--pri) 14%,#fff)}.nav.on{background:var(--pri);color:#fff;box-shadow:0 4px 12px color-mix(in srgb,var(--pri) 35%,transparent)}
@@ -29,7 +29,7 @@ aside{width:272px;background:var(--side);backdrop-filter:blur(6px);color:#8a6f66
 .nav .n{margin-left:auto;background:#f08a8a;color:#fff;font-size:.7rem;padding:2px 7px;border-radius:99px}
 main{margin-left:272px;flex:1;padding:22px;max-width:1200px;min-width:0}
 h1{margin:0;font-size:1.6rem;font-weight:600;letter-spacing:.04em}
-h1.wk{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:4rem;letter-spacing:.04em;line-height:1;color:#5b4540}
+h1.wk{overflow-wrap:anywhere;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:600;font-size:4rem;letter-spacing:.04em;line-height:1;color:#5b4540}
 .wk-box{text-align:center;margin:4px 0 18px}h2{margin:0 0 10px;font-size:1.05rem;font-weight:600}
 .sub{margin:4px 0 0;color:var(--muted);font-size:.85rem}
 .head{margin-bottom:16px}
@@ -40,6 +40,17 @@ h1.wk{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weig
 .btn-p{background:var(--pri);color:#fff;border-color:var(--pri)}.btn-p:hover{background:#cf5c77}
 .del{background:#ffe6e6;color:#d95f5f;border:none;border-radius:6px;padding:7px 10px;cursor:pointer;font-size:.8rem;font-weight:600}
 .inp{padding:9px 10px;border:1px solid #efdfd5;border-radius:10px;font-size:.88rem;background:#fff;color:var(--txt);min-width:0}
+.bar{background:rgba(255,255,255,.93);border-radius:20px;box-shadow:0 4px 18px rgba(170,110,90,.09);margin-bottom:12px;overflow:hidden}
+.bh{display:flex;align-items:center;gap:12px;padding:16px 18px;cursor:pointer;border-left:8px solid}
+.bh .nm{flex:1;font-weight:600;font-size:1.1rem}
+.pill{background:#fdf3ec;border-radius:99px;padding:4px 12px;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.plus{width:36px;height:36px;border-radius:50%;border:none;background:var(--pri);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;flex-shrink:0}
+.chev{font-size:1.5rem;color:var(--muted);transition:transform .2s;width:14px;text-align:center}.chev.o{transform:rotate(90deg)}
+.bb{padding:0 18px 14px;border-top:1px solid var(--bdr)}
+.tabs{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;margin:0 auto 18px;background:rgba(255,255,255,.75);padding:5px;border-radius:99px;width:fit-content;max-width:100%}
+.tab{border:none;background:none;padding:9px 18px;border-radius:99px;font-size:.98rem;font-weight:600;color:var(--muted);cursor:pointer}
+.tab.on{background:var(--pri);color:#fff}
+.sched{background:rgba(255,255,255,.28);backdrop-filter:blur(4px)}
 .chip{padding:6px 13px;border-radius:99px;color:var(--txt);font-weight:600;background:#f6ece5;border-left:0;font-size:.82rem;border:none;cursor:pointer}
 .chip:not(.off){background:#ecd9cd}
 .chip.off{background:#f6ece5!important;color:#9a857d}
@@ -48,11 +59,11 @@ h1.wk{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weig
 .tw{overflow-x:auto}
 table{width:100%;border-collapse:separate;border-spacing:6px;min-width:720px;table-layout:fixed}
 th,td{border:none;padding:5px;text-align:center;height:92px;vertical-align:middle}
-th{border-radius:14px;background:#f4e6db;color:#7a5f55;font-weight:600;letter-spacing:.04em;height:42px;font-size:.88rem}
+th{border-radius:14px;background:rgba(244,230,219,.78);color:#7a5f55;font-weight:600;letter-spacing:.04em;height:42px;font-size:.88rem}
 th.th-t{width:105px}
 th.hoy{background:var(--pri);color:#fff;font-size:1rem}
-td.td-t{border-radius:14px;background:#fdf3ec;font-weight:700;color:#8a6f66;font-size:.8rem}
-td{border-radius:16px;background:#fffaf7}td.hoy{background:color-mix(in srgb,var(--pri) 9%,#fff)}
+td.td-t{border-radius:14px;background:rgba(255,255,255,.6);font-weight:700;color:#8a6f66;font-size:.8rem}
+td{border-radius:16px;background:rgba(255,255,255,.38)}td.hoy{background:color-mix(in srgb,var(--pri) 14%,rgba(255,255,255,.4))}
 .blk{width:100%;height:100%;border-radius:14px;padding:8px 6px;min-height:76px;color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;transition:.15s}
 .blk b{font-size:.84rem;line-height:1.2;max-width:100%;overflow-wrap:anywhere;hyphens:auto}.blk small{font-size:.72rem;opacity:.92;margin-top:2px;max-width:100%;overflow-wrap:anywhere}
 .blk .bdg{margin-top:4px;background:rgba(255,255,255,.6);font-size:.7rem;padding:2px 8px;border-radius:99px;font-weight:600}
@@ -82,6 +93,7 @@ td{border-radius:16px;background:#fffaf7}td.hoy{background:color-mix(in srgb,var
 .ct.d{text-decoration:line-through;opacity:.5}
 .more{font-size:.64rem;color:var(--muted);margin-top:2px}
 @media(max-width:760px){
+ .tabs{border-radius:20px}.tab{padding:8px 12px;font-size:.88rem}.bh{padding:14px}
  .cd{min-height:54px;padding:4px}.ct{font-size:0;height:7px;width:7px;padding:0;display:inline-block;border-radius:50%;margin:3px 1px 0;background:var(--muted)}.more{display:none}
  .nav .ic,.nav .ic svg{width:20px;height:20px}h1.wk{font-size:3rem}table{border-spacing:4px}
  aside{top:auto;width:100%;flex-direction:row;padding:6px;gap:2px;justify-content:space-around}
@@ -99,7 +111,7 @@ td{border-radius:16px;background:#fffaf7}td.hoy{background:color-mix(in srgb,var
 
 <script>
 (function(){
-var PAL=['#f4a3a3','#f8b98a','#f6d57a','#9fdcb4','#8fdcd3','#97d3ef','#a9bdf5','#c3b0f4','#e5b0f2','#f7aecb','#d9bfa6','#bcc6d3'];
+var PAL=['#f4a3a3','#f8b98a','#f6d57a','#c9e29a','#9fdcb4','#8fdcd3','#97d3ef','#a9bdf5','#c3b0f4','#e5b0f2','#f7aecb','#d9bfa6','#bcc6d3','#ee8f8f','#7fc4a0','#6fb0e0','#9b8ee0','#e89bb4'];
 var KEY='mihorario_v4',OLD='mi_horario_seguro_v3';
 var DEF={includeSaturday:false,maxGrade:20,
  periods:['08:00 - 10:00','10:00 - 12:00','12:00 - 14:00','14:00 - 16:00'],
@@ -111,16 +123,22 @@ var st=null;
 try{var s=localStorage.getItem(KEY)||localStorage.getItem(OLD);if(s)st=JSON.parse(s);}catch(e){}
 if(!st||!st.courses||!st.periods)st=JSON.parse(JSON.stringify(DEF));
 if(!st.theme)st.theme={preset:'rosa',bg:'flores',bgColor:'#fdf8f4',img:'',accent:'#e0708a'};
+if(!st.appName)st.appName='VicWeek';
 if(!st.notes)st.notes={};if(!st.tasks)st.tasks={};if(!st.maxGrade)st.maxGrade=20;
 
 var PRESETS={rosa:{n:'Rosa',bg:'flores',col:'#fdf8f4',acc:'#e0708a',side:'rgba(255,241,238,.94)'},
  lavanda:{n:'Lavanda',bg:'color',col:'#f5f1fc',acc:'#9a82d8',side:'rgba(238,232,250,.95)'},
  menta:{n:'Menta',bg:'color',col:'#eef8f3',acc:'#4fae8a',side:'rgba(227,244,236,.95)'},
  cielo:{n:'Cielo',bg:'color',col:'#eff6fc',acc:'#5b9bd5',side:'rgba(226,238,249,.95)'},
- cafe:{n:'Café',bg:'color',col:'#f8f1e9',acc:'#b08968',side:'rgba(240,228,214,.95)'}};
-var ACC=['#e0708a','#e58a6f','#d9a441','#4fae8a','#4aa6a6','#5b9bd5','#7e8fe0','#9a82d8','#c07ad0','#b08968','#6b7280'];
+ cafe:{n:'Café',bg:'color',col:'#f8f1e9',acc:'#b08968',side:'rgba(240,228,214,.95)'},
+ durazno:{n:'Durazno',bg:'color',col:'#fdf3ec',acc:'#e58a6f',side:'rgba(253,236,226,.95)'},
+ salvia:{n:'Salvia',bg:'color',col:'#f1f5ec',acc:'#8aa874',side:'rgba(232,239,224,.95)'},
+ lila:{n:'Lila',bg:'color',col:'#f9f0f7',acc:'#c07ad0',side:'rgba(246,232,244,.95)'},
+ sol:{n:'Sol',bg:'color',col:'#fdf8e8',acc:'#d9a441',side:'rgba(251,243,214,.95)'},
+ nube:{n:'Nube',bg:'color',col:'#f3f5f8',acc:'#6b7a90',side:'rgba(232,236,242,.95)'}};
+var ACC=['#e0708a','#ec8fa8','#e58a6f','#f0a35e','#d9a441','#c9b458','#8aa874','#4fae8a','#4aa6a6','#5bb5c9','#5b9bd5','#7e8fe0','#9a82d8','#c07ad0','#d66fb0','#b08968','#8c7a6b','#6b7280','#4a3b36'];
 var FLORES=getComputedStyle(document.documentElement).getPropertyValue('--bg-img');
-function applyTheme(){var t=st.theme,r=document.documentElement.style,p=PRESETS[t.preset]||PRESETS.rosa;
+function applyTheme(){document.title=st.appName;var t=st.theme,r=document.documentElement.style,p=PRESETS[t.preset]||PRESETS.rosa;
  r.setProperty('--pri',t.accent);r.setProperty('--side',p.side);
  if(t.bg==='flores'){r.setProperty('--bg-img',FLORES);r.setProperty('--bg-col','#f6f1e7');}
  else if(t.bg==='img'&&t.img){r.setProperty('--bg-img','url('+t.img+')');r.setProperty('--bg-col','#f6f1e7');}
@@ -148,7 +166,7 @@ function pend(id){return(st.tasks[id]||[]).filter(function(t){return!t.done;}).l
 function totalPend(){return st.courses.reduce(function(n,c){return n+pend(c.id);},0);}
 function days(){return DAYS.slice(0,st.includeSaturday?6:5);}
 function go(v,f){view=v;filter=f||null;render();window.scrollTo(0,0);}
-function head(t,s){return h('div',{class:'head'},[h('h1',{},[t]),h('p',{class:'sub'},[s])]);}
+function head(t){return h('div',{class:'head',style:'text-align:center'},[h('h1',{},[t])]);}
 function courseSelect(val,onch,blank){
  var s=h('select',{class:'inp',onchange:function(){onch(s.value);}},[].concat(blank?[h('option',{value:''},[blank])]:[],
   st.courses.map(function(c){return h('option',{value:c.id},[c.name]);})));
@@ -161,7 +179,7 @@ function renderSide(){
   (function(){var d=document.createElement('div');
    d.innerHTML='<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="#f6ecdc"/><rect x="27" y="20" width="48" height="60" rx="8" fill="#fffaf2" stroke="#a98878" stroke-width="3"/><g fill="#a98878"><circle cx="27" cy="34" r="3.2"/><circle cx="27" cy="50" r="3.2"/><circle cx="27" cy="66" r="3.2"/></g><path d="M40 36h17M40 47h24M40 58h14" stroke="#cdb6a6" stroke-width="3" stroke-linecap="round"/><path d="M62 20h10v18l-5-4-5 4z" fill="#e8a9b2"/></svg>';
    return d.firstChild;})(),
-  h('div',{},[h('span',{class:'wk-logo'},['VicWeek']),h('small',{},['Clases · Tareas · Notas'])])]));
+  h('div',{},[h('span',{class:'wk-logo'},[st.appName]),h('small',{},['Clases · Tareas · Notas'])])]));
  NAV.forEach(function(n){
   var cnt=n[0]==='tareas'?totalPend():0;
   side.appendChild(h('button',{class:'nav'+(view===n[0]?' on':''),onclick:function(){go(n[0]);}},
@@ -171,7 +189,7 @@ function renderSide(){
 /* ---------- Horario ---------- */
 function vHorario(m){
  var jd=new Date().getDay(),ti=(jd+6)%7,D=days(),hasToday=ti<D.length;
- m.appendChild(h('div',{class:'wk-box'},[h('h1',{class:'wk'},['VicWeek'])]));
+ m.appendChild(h('div',{class:'wk-box'},[h('h1',{class:'wk'},[st.appName])]));
  if(hasToday){
   var ids=[];st.periods.forEach(function(p,pi){var c=st.schedule[pi+'-'+ti];if(c&&ids.indexOf(c)<0&&getC(c))ids.push(c);});
   m.appendChild(h('div',{class:'today'},[h('b',{},['Hoy es '+D[ti]+' · '+(ids.length?ids.length+(ids.length===1?' curso':' cursos'):'sin clases')]),
@@ -189,32 +207,40 @@ function vHorario(m){
      [h('b',{style:'color:#4a3b36'},[c.name]),c.room?h('small',{style:'color:#5e4b45'},[c.room]):null,h('span',{class:'bdg',style:'color:#4a3b36'},[''+n+(n===1?' tarea':' tareas')])]));}
    tr.appendChild(td);});
   tb.appendChild(tr);});
- m.appendChild(h('div',{class:'card tw'},[h('table',{},[h('thead',{},[thr]),tb])]));
+ m.appendChild(h('div',{class:'card tw sched'},[h('table',{},[h('thead',{},[thr]),tb])]));
 }
 
 /* ---------- Tareas ---------- */
+var tOpen={},tAdd={};
 function vTareas(m){
- m.appendChild(head('Tareas y actividades','Todas tus pendientes en un solo lugar.'));
- var sel=h('select',{class:'inp'},st.courses.map(function(c){return h('option',{value:c.id},[c.name]);}));
- if(filter)sel.value=filter;
- var txt=h('input',{class:'inp',placeholder:'Tarea, examen o trabajo...',style:'flex:1;min-width:160px'}),due=h('input',{class:'inp',type:'date'});
- function add(){var t=txt.value.trim();if(!t||!sel.value)return;(st.tasks[sel.value]=st.tasks[sel.value]||[]).push({text:t,due:due.value,done:false});save();}
- txt.addEventListener('keydown',function(e){if(e.key==='Enter')add();});
- m.appendChild(h('div',{class:'card'},[h('div',{class:'row'},[sel,txt,due,h('button',{class:'btn btn-p',onclick:add},['+ Añadir'])])]));
- var chips=[h('button',{class:'chip'+(filter?' off':''),style:'background:#4a3b36;color:#fff',onclick:function(){go('tareas');}},['Todas'])];
- st.courses.forEach(function(c){chips.push(h('button',{class:'chip'+(filter===c.id?'':' off'),style:'box-shadow:inset 4px 0 0 '+c.color,onclick:function(){go('tareas',c.id);}},[c.name+' ('+pend(c.id)+')']));});
- m.appendChild(h('div',{class:'row',style:'margin-bottom:12px'},chips));
- var shown=0;
+ m.appendChild(head('Tareas'));
+ if(filter){tOpen[filter]=true;filter=null;}
+ if(!st.courses.length)m.appendChild(h('div',{class:'card empty'},['Primero crea tus cursos en Configuración.']));
  st.courses.forEach(function(c){
-  if(filter&&filter!==c.id)return;var arr=st.tasks[c.id]||[];if(!arr.length)return;shown++;
-  var card=h('div',{class:'card ch',style:'border-color:'+c.color},[h('h2',{},[c.name+(c.room?' · '+c.room:'')])]);
-  arr.forEach(function(t,i){
-   card.appendChild(h('div',{class:'t-it'+(t.done?' done':'')},[
-    h('input',{type:'checkbox',checked:!!t.done,onchange:function(e){t.done=e.target.checked;save();}}),
-    h('div',{style:'flex:1'},[h('div',{class:'tt'},[t.text]),t.due?h('small',{class:'sub'},['Entrega: '+t.due]):null]),
-    h('button',{class:'del',onclick:function(){arr.splice(i,1);save();}},['Borrar'])]));});
-  m.appendChild(card);});
- if(!shown)m.appendChild(h('div',{class:'card empty'},['No hay tareas registradas.']));
+  var arr=st.tasks[c.id]=st.tasks[c.id]||[],n=pend(c.id),open=!!tOpen[c.id],adding=!!tAdd[c.id];
+  var bar=h('div',{class:'bar'});
+  bar.appendChild(h('div',{class:'bh',style:'border-left-color:'+c.color,onclick:function(){tOpen[c.id]=!open;render();}},[
+   h('div',{class:'nm'},[c.name,c.room?h('small',{class:'sub',style:'display:block;font-weight:400;margin:0'},[c.room]):null]),
+   h('span',{class:'pill'},[n+(n===1?' pendiente':' pendientes')]),
+   h('button',{class:'plus',title:'Añadir tarea',onclick:function(e){e.stopPropagation();tOpen[c.id]=true;tAdd[c.id]=!adding;render();}},[adding?'×':'+']),
+   h('span',{class:'chev'+(open?' o':'')},['›'])]));
+  if(open){
+   var body=h('div',{class:'bb'});
+   if(adding){
+    var txt=h('input',{class:'inp',placeholder:'Tarea, examen o trabajo...',style:'flex:1;min-width:150px'}),due=h('input',{class:'inp',type:'date'});
+    var add=function(){var t=txt.value.trim();if(!t)return;arr.push({text:t,due:due.value,done:false});save();};
+    txt.addEventListener('keydown',function(e){if(e.key==='Enter')add();});
+    body.appendChild(h('div',{class:'row',style:'margin:10px 0'},[txt,due,h('button',{class:'btn btn-p',onclick:add},['Añadir'])]));
+    setTimeout(function(){txt.focus();},0);
+   }
+   arr.forEach(function(t,i){
+    body.appendChild(h('div',{class:'t-it'+(t.done?' done':'')},[
+     h('input',{type:'checkbox',checked:!!t.done,onchange:function(e){t.done=e.target.checked;save();}}),
+     h('div',{style:'flex:1'},[h('div',{class:'tt'},[t.text]),t.due?h('small',{class:'sub'},['Entrega: '+t.due]):null]),
+     h('button',{class:'del',onclick:function(){arr.splice(i,1);save();}},['Borrar'])]));});
+   if(!arr.length&&!adding)body.appendChild(h('div',{class:'empty'},['Sin tareas']));
+   bar.appendChild(body);}
+  m.appendChild(bar);});
 }
 
 /* ---------- Calendario ---------- */
@@ -252,7 +278,7 @@ function vCal(m){
  txt.addEventListener('keydown',function(e){if(e.key==='Enter')add();});
  card.appendChild(h('div',{class:'row',style:'margin-top:12px'},[sel,txt,h('button',{class:'btn btn-p',onclick:add},['+ Añadir'])]));
  var nod=0;st.courses.forEach(function(c){(st.tasks[c.id]||[]).forEach(function(t){if(!t.due&&!t.done)nod++;});});
- if(nod)card.appendChild(h('p',{class:'sub'},['Tienes '+nod+' tarea(s) pendiente(s) sin fecha; asígnales una en la sección Tareas para verlas aquí.']));
+ 
  m.appendChild(card);
 }
 
@@ -260,11 +286,17 @@ function vCal(m){
 function calc(cid){var l=st.notes[cid]||[],s=0,w=0,tw=0;
  l.forEach(function(e){var wt=parseFloat(e.weight)||0;tw+=wt;if(e.grade!==''&&e.grade!==null&&!isNaN(parseFloat(e.grade))){s+=parseFloat(e.grade)*wt;w+=wt;}});
  return{avg:w?s/w:null,tw:tw,w:w};}
+function noteGroups(){var g=[],map={},dirty=false;
+ st.courses.forEach(function(c){var k=(c.color||'').toLowerCase(),x=map[k];
+  if(!x){x=map[k]={id:c.id,color:c.color,names:[c.name]};g.push(x);}
+  else{x.names.push(c.name);var o=st.notes[c.id];if(o&&o.length){st.notes[x.id]=(st.notes[x.id]||[]).concat(o);st.notes[c.id]=[];dirty=true;}}});
+ if(dirty){try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}}
+ return g.map(function(x){return{id:x.id,color:x.color,name:x.names.join(' + ')};});}
 function vNotas(m){
  var mx=st.maxGrade;
  m.appendChild(head('Notas','Agrega evaluaciones por curso con su porcentaje y obtén tu promedio ponderado (escala 0–'+mx+').'));
  if(!st.courses.length)m.appendChild(h('div',{class:'card empty'},['Primero crea tus cursos en Configuración.']));
- st.courses.forEach(function(c){
+ noteGroups().forEach(function(c){
   var list=st.notes[c.id]=st.notes[c.id]||[],r=calc(c.id);
   var card=h('div',{class:'card ch',style:'border-color:'+c.color},[h('h2',{},[c.name])]);
   if(list.length)card.appendChild(h('div',{class:'ev sub',style:'margin-bottom:2px'},[h('span',{},['Evaluación']),h('span',{},['Nota']),h('span',{},['Peso %']),h('span')]));
@@ -289,10 +321,14 @@ function vNotas(m){
 }
 
 /* ---------- Configuración ---------- */
+var cfgTab='apariencia';
 function vConfig(m){
- m.appendChild(head('Configuración','Edita tu horario, cursos, horas y preferencias.'));
+ m.appendChild(head('Configuración'));
+ var TABS=[['apariencia','Apariencia'],['horario','Horario'],['cursos','Cursos'],['notas','Notas'],['general','General']];
+ m.appendChild(h('div',{class:'tabs'},TABS.map(function(x){return h('button',{class:'tab'+(cfgTab===x[0]?' on':''),onclick:function(){cfgTab=x[0];render();}},[x[1]]);})));
+ function put(tab,node){if(cfgTab===tab)m.appendChild(node);}
  // Apariencia
- var t=st.theme,ap=h('div',{class:'card'},[h('h2',{},['Apariencia']),h('p',{class:'sub',style:'margin:0 0 12px'},['Elige un tema o personaliza el fondo y el color de acento.'])]);
+ var t=st.theme,ap=h('div',{class:'card'},[h('h2',{},['Apariencia'])]);
  ap.appendChild(h('div',{class:'sub',style:'margin:8px 0 6px'},['Temas']));
  ap.appendChild(h('div',{class:'row'},Object.keys(PRESETS).map(function(k){var p=PRESETS[k];
   return h('button',{class:'chip'+(t.preset===k?'':' off'),style:'display:flex;align-items:center;gap:7px',onclick:function(){t.preset=k;t.bg=p.bg;t.bgColor=p.col;t.accent=p.acc;save();}},
@@ -313,7 +349,7 @@ function vConfig(m){
  ap.appendChild(h('div',{class:'sub',style:'margin:14px 0 6px'},['Color de acento (botones, día de hoy, menú)']));
  var ag=h('div',{class:'row'},ACC.map(function(c){return h('div',{class:'sw'+(t.accent===c?' sel':''),style:'background:'+c+';width:30px;height:30px;border-radius:50%',onclick:function(){setBg({accent:c});}});}));
  ag.appendChild(h('input',{type:'color',value:t.accent,onchange:function(e){setBg({accent:e.target.value});}}));
- ap.appendChild(ag);m.appendChild(ap);
+ ap.appendChild(ag);put('apariencia',ap);
  // Editor de horario
  var D=days(),thr=h('tr',{},[h('th',{class:'th-t'},['Hora'])]);D.forEach(function(d){thr.appendChild(h('th',{},[d]));});
  var tb=h('tbody');
@@ -321,10 +357,10 @@ function vConfig(m){
   D.forEach(function(d,di){var k=pi+'-'+di;
    tr.appendChild(h('td',{style:'height:56px'},[courseSelect(st.schedule[k],function(v){if(v)st.schedule[k]=v;else delete st.schedule[k];save();},'— libre —')]));});
   tb.appendChild(tr);});
- m.appendChild(h('div',{class:'card'},[h('h2',{},['Editar horario']),h('p',{class:'sub',style:'margin:0 0 10px'},['Elige el curso de cada bloque. Los cambios se guardan al instante.']),
+ put('horario',h('div',{class:'card'},[h('h2',{},['Editar horario']),
   h('div',{class:'tw'},[h('table',{style:'min-width:640px'},[h('thead',{},[thr]),tb])])]));
  // Horas y días
- var pc=h('div',{class:'card'},[h('h2',{},['⏰ Horas y días']),
+ var pc=h('div',{class:'card'},[h('h2',{},['Horas y días']),
   h('label',{class:'row',style:'margin-bottom:10px;font-weight:600'},[h('input',{type:'checkbox',checked:st.includeSaturday,onchange:function(e){st.includeSaturday=e.target.checked;save();}}),'Incluir sábado'])]);
  st.periods.forEach(function(p,idx){
   pc.appendChild(h('div',{class:'row',style:'margin-bottom:6px'},[
@@ -333,7 +369,7 @@ function vConfig(m){
     Object.keys(st.schedule).forEach(function(k){var a=k.split('-'),pi=+a[0];if(pi<idx)ns[k]=st.schedule[k];else if(pi>idx)ns[(pi-1)+'-'+a[1]]=st.schedule[k];});st.schedule=ns;save();}},['Borrar'])]));});
  var pIn=h('input',{class:'inp',style:'flex:1',placeholder:'Nuevo bloque (ej. 16:00 - 18:00)'});
  pc.appendChild(h('div',{class:'row'},[pIn,h('button',{class:'btn btn-p',onclick:function(){if(pIn.value.trim()){st.periods.push(pIn.value.trim());save();}}},['+ Añadir'])]));
- m.appendChild(pc);
+ put('horario',pc);
  // Cursos
  var ed=editId?getC(editId):null,nm=h('input',{class:'inp',placeholder:'Nombre del curso',value:ed?ed.name:''}),rm=h('input',{class:'inp',placeholder:'Aula o profesor (opcional)',value:ed?ed.room||'':''});
  var grid=h('div',{class:'cgrid'});
@@ -351,10 +387,12 @@ function vConfig(m){
    h('div',{class:'row'},[h('span',{class:'dot',style:'background:'+c.color}),h('div',{},[h('b',{},[c.name]),h('div',{class:'sub',style:'margin:0'},[c.room||'Sin aula asignada'])])]),
    h('div',{class:'row'},[h('button',{class:'btn',onclick:function(){editId=c.id;selCol=c.color;render();window.scrollTo(0,document.body.scrollHeight);}},['Editar']),
     h('button',{class:'del',onclick:function(){if(!confirm('¿Borrar '+c.name+' y sus notas/tareas?'))return;
-     st.courses=st.courses.filter(function(x){return x.id!==c.id;});Object.keys(st.schedule).forEach(function(k){if(st.schedule[k]===c.id)delete st.schedule[k];});delete st.tasks[c.id];delete st.notes[c.id];save();}},['Borrar'])])]));});
- m.appendChild(cc);
+     st.courses=st.courses.filter(function(x){return x.id!==c.id;});Object.keys(st.schedule).forEach(function(k){if(st.schedule[k]===c.id)delete st.schedule[k];});delete st.tasks[c.id];var o=st.courses.filter(function(x){return x.color===c.color;})[0];if(o&&st.notes[c.id]&&st.notes[c.id].length)st.notes[o.id]=(st.notes[o.id]||[]).concat(st.notes[c.id]);delete st.notes[c.id];save();}},['Borrar'])])]));});
+ put('cursos',cc);
  // Preferencias
- m.appendChild(h('div',{class:'card'},[h('h2',{},['Notas']),
+ put('general',h('div',{class:'card'},[h('h2',{},['Nombre de la app']),
+  h('input',{class:'inp',maxlength:24,value:st.appName,style:'width:100%;max-width:320px',onchange:function(e){st.appName=e.target.value.trim()||'VicWeek';save();}})]));
+ put('notas',h('div',{class:'card'},[h('h2',{},['Notas']),
   h('label',{class:'row',style:'font-weight:600'},['Nota máxima de tu escala:',h('input',{class:'inp',type:'number',min:1,value:st.maxGrade,style:'width:80px',onchange:function(e){st.maxGrade=parseFloat(e.target.value)||20;save();}})])]));
 }
 
