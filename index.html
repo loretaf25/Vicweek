@@ -167,6 +167,15 @@ function totalPend(){return st.courses.reduce(function(n,c){return n+pend(c.id);
 function days(){return DAYS.slice(0,st.includeSaturday?6:5);}
 function go(v,f){view=v;filter=f||null;render();window.scrollTo(0,0);}
 function head(t){return h('div',{class:'head',style:'text-align:center'},[h('h1',{},[t])]);}
+function slot(v){if(!v)return null;var p=String(v).split(':'),c=getC(p[0]);return c?{c:c,tipo:p[1]||''}:null;}
+function slotSelect(val,onch,blank){
+ var ops=[h('option',{value:''},[blank])],found=!val;
+ st.courses.forEach(function(c){var tp=c.tipos||[];
+  if(tp.length){tp.forEach(function(t){var v=c.id+':'+t;if(v===val)found=true;ops.push(h('option',{value:v},[c.name+' · '+t]));});
+   if(val===c.id){found=true;ops.push(h('option',{value:c.id},[c.name]));}}
+  else{if(c.id===val)found=true;ops.push(h('option',{value:c.id},[c.name]));}});
+ var q=slot(val);if(!found&&q)ops.push(h('option',{value:val},[q.c.name+(q.tipo?' · '+q.tipo:'')]));
+ var s=h('select',{class:'inp',onchange:function(){onch(s.value);}},ops);s.value=val||'';return s;}
 function courseSelect(val,onch,blank){
  var s=h('select',{class:'inp',onchange:function(){onch(s.value);}},[].concat(blank?[h('option',{value:''},[blank])]:[],
   st.courses.map(function(c){return h('option',{value:c.id},[c.name]);})));
@@ -191,7 +200,7 @@ function vHorario(m){
  var jd=new Date().getDay(),ti=(jd+6)%7,D=days(),hasToday=ti<D.length;
  m.appendChild(h('div',{class:'wk-box'},[h('h1',{class:'wk'},[st.appName])]));
  if(hasToday){
-  var ids=[];st.periods.forEach(function(p,pi){var c=st.schedule[pi+'-'+ti];if(c&&ids.indexOf(c)<0&&getC(c))ids.push(c);});
+  var ids=[];st.periods.forEach(function(p,pi){var q=slot(st.schedule[pi+'-'+ti]);if(q&&ids.indexOf(q.c.id)<0)ids.push(q.c.id);});
   m.appendChild(h('div',{class:'today'},[h('b',{},['Hoy es '+D[ti]+' · '+(ids.length?ids.length+(ids.length===1?' curso':' cursos'):'sin clases')]),
    h('div',{class:'row',style:'margin-top:8px'},ids.map(function(i){return h('span',{class:'chip'},[getC(i).name]);}))]));
  }else m.appendChild(h('div',{class:'today'},[h('b',{},['Hoy no tienes clases '])]));
@@ -201,10 +210,10 @@ function vHorario(m){
  st.periods.forEach(function(p,pi){
   var tr=h('tr',{},[h('td',{class:'td-t'},[p])]);
   D.forEach(function(d,di){
-   var c=getC(st.schedule[pi+'-'+di]),td=h('td',{class:di===ti?'hoy':''});
+   var q=slot(st.schedule[pi+'-'+di]),c=q&&q.c,td=h('td',{class:di===ti?'hoy':''});
    if(c){var n=pend(c.id);
     td.appendChild(h('div',{class:'blk '+(di===ti?'hoy':'dim'),style:'background:'+c.color+';color:'+c.color,onclick:function(){go('tareas',c.id);}},
-     [h('b',{style:'color:#4a3b36'},[c.name]),c.room?h('small',{style:'color:#5e4b45'},[c.room]):null,h('span',{class:'bdg',style:'color:#4a3b36'},[''+n+(n===1?' tarea':' tareas')])]));}
+     [h('b',{style:'color:#4a3b36'},[c.name]),(q.tipo||c.room)?h('small',{style:'color:#5e4b45'},[[q.tipo,c.room].filter(Boolean).join(' · ')]):null,h('span',{class:'bdg',style:'color:#4a3b36'},[''+n+(n===1?' tarea':' tareas')])]));}
    tr.appendChild(td);});
   tb.appendChild(tr);});
  m.appendChild(h('div',{class:'card tw sched'},[h('table',{},[h('thead',{},[thr]),tb])]));
@@ -355,7 +364,7 @@ function vConfig(m){
  var tb=h('tbody');
  st.periods.forEach(function(p,pi){var tr=h('tr',{},[h('td',{class:'td-t'},[p])]);
   D.forEach(function(d,di){var k=pi+'-'+di;
-   tr.appendChild(h('td',{style:'height:56px'},[courseSelect(st.schedule[k],function(v){if(v)st.schedule[k]=v;else delete st.schedule[k];save();},'— libre —')]));});
+   tr.appendChild(h('td',{style:'height:56px'},[slotSelect(st.schedule[k],function(v){if(v)st.schedule[k]=v;else delete st.schedule[k];save();},'— libre —')]));});
   tb.appendChild(tr);});
  put('horario',h('div',{class:'card'},[h('h2',{},['Editar horario']),
   h('div',{class:'tw'},[h('table',{style:'min-width:640px'},[h('thead',{},[thr]),tb])])]));
@@ -372,22 +381,24 @@ function vConfig(m){
  put('horario',pc);
  // Cursos
  var ed=editId?getC(editId):null,nm=h('input',{class:'inp',placeholder:'Nombre del curso',value:ed?ed.name:''}),rm=h('input',{class:'inp',placeholder:'Aula o profesor (opcional)',value:ed?ed.room||'':''});
+ var hasT=function(x){return !!(ed&&ed.tipos&&ed.tipos.indexOf(x)>-1);},cbT=h('input',{type:'checkbox',checked:hasT('Teoría')}),cbP=h('input',{type:'checkbox',checked:hasT('Práctica')});
  var grid=h('div',{class:'cgrid'});
  PAL.forEach(function(col){var sw=h('div',{class:'sw'+(col===selCol?' sel':''),style:'background:'+col});
   sw.addEventListener('click',function(){selCol=col;[].forEach.call(grid.children,function(g){g.classList.remove('sel');});sw.classList.add('sel');});grid.appendChild(sw);});
  function saveC(){var n=nm.value.trim();if(!n)return;
-  if(ed){ed.name=n;ed.room=rm.value.trim();ed.color=selCol;}else st.courses.push({id:'c_'+Date.now(),name:n,room:rm.value.trim(),color:selCol});
+  var tp=[];if(cbT.checked)tp.push('Teoría');if(cbP.checked)tp.push('Práctica');
+  if(ed){ed.name=n;ed.room=rm.value.trim();ed.color=selCol;ed.tipos=tp;}else st.courses.push({id:'c_'+Date.now(),name:n,room:rm.value.trim(),color:selCol,tipos:tp});
   editId=null;selCol=PAL[st.courses.length%PAL.length];save();}
  var cc=h('div',{class:'card'},[h('h2',{},['Mis cursos']),
   h('div',{style:'display:flex;flex-direction:column;gap:8px;background:#fdf3ec;padding:12px;border-radius:10px;margin-bottom:12px'},[
-   h('b',{style:'font-size:.9rem'},[ed?'Editar curso: '+ed.name:'Añadir nuevo curso']),nm,rm,grid,
+   h('b',{style:'font-size:.9rem'},[ed?'Editar curso: '+ed.name:'Añadir nuevo curso']),nm,rm,h('div',{class:'row'},[h('span',{class:'sub',style:'margin:0'},['Dividir en:']),h('label',{class:'row',style:'gap:5px'},[cbT,'Teoría']),h('label',{class:'row',style:'gap:5px'},[cbP,'Práctica'])]),grid,
    h('div',{class:'row'},[h('button',{class:'btn btn-p',onclick:saveC},['Guardar curso']),ed?h('button',{class:'btn',onclick:function(){editId=null;render();}},['Cancelar']):null])])]);
  st.courses.forEach(function(c){
   cc.appendChild(h('div',{class:'t-it',style:'justify-content:space-between'},[
-   h('div',{class:'row'},[h('span',{class:'dot',style:'background:'+c.color}),h('div',{},[h('b',{},[c.name]),h('div',{class:'sub',style:'margin:0'},[c.room||'Sin aula asignada'])])]),
+   h('div',{class:'row'},[h('span',{class:'dot',style:'background:'+c.color}),h('div',{},[h('b',{},[c.name]),h('div',{class:'sub',style:'margin:0'},[((c.tipos||[]).length?c.tipos.join(' / ')+' · ':'')+(c.room||'Sin aula asignada')])])]),
    h('div',{class:'row'},[h('button',{class:'btn',onclick:function(){editId=c.id;selCol=c.color;render();window.scrollTo(0,document.body.scrollHeight);}},['Editar']),
     h('button',{class:'del',onclick:function(){if(!confirm('¿Borrar '+c.name+' y sus notas/tareas?'))return;
-     st.courses=st.courses.filter(function(x){return x.id!==c.id;});Object.keys(st.schedule).forEach(function(k){if(st.schedule[k]===c.id)delete st.schedule[k];});delete st.tasks[c.id];var o=st.courses.filter(function(x){return x.color===c.color;})[0];if(o&&st.notes[c.id]&&st.notes[c.id].length)st.notes[o.id]=(st.notes[o.id]||[]).concat(st.notes[c.id]);delete st.notes[c.id];save();}},['Borrar'])])]));});
+     st.courses=st.courses.filter(function(x){return x.id!==c.id;});Object.keys(st.schedule).forEach(function(k){if(String(st.schedule[k]).split(':')[0]===c.id)delete st.schedule[k];});delete st.tasks[c.id];var o=st.courses.filter(function(x){return x.color===c.color;})[0];if(o&&st.notes[c.id]&&st.notes[c.id].length)st.notes[o.id]=(st.notes[o.id]||[]).concat(st.notes[c.id]);delete st.notes[c.id];save();}},['Borrar'])])]));});
  put('cursos',cc);
  // Preferencias
  put('general',h('div',{class:'card'},[h('h2',{},['Nombre de la app']),
