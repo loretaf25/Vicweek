@@ -338,6 +338,17 @@ function vNotas(m){
 }
 
 /* ---------- Configuración ---------- */
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;if(view==='config')render();});
+function diag(out){var res=[];function add(ok,t){res.push((ok?'✓ ':'✗ ')+t);}out.textContent='Comprobando...';
+ add(location.protocol==='https:','Conexión segura (https)');
+ add(/Android/.test(navigator.userAgent),'Sitio móvil (si falla, desactiva "Sitio para computadora" en el menú ⋮ de Chrome)');
+ fetch('manifest.webmanifest',{cache:'no-store'}).then(function(r){add(r.ok,'manifest.webmanifest ('+r.status+')');return r.ok?r.json():null;}).catch(function(){add(false,'manifest.webmanifest no se pudo leer');return null;})
+ .then(function(m){var ic=['icon-192.png','icon-512.png'];if(m)add(m.display==='standalone','Modo app (standalone)');
+  return Promise.all(ic.map(function(u){return fetch(u,{cache:'no-store'}).then(function(r){add(r.ok,u+' ('+r.status+')');}).catch(function(){add(false,u);});}));})
+ .then(function(){return('serviceWorker' in navigator)?navigator.serviceWorker.getRegistration():null;})
+ .then(function(g){add(!!g,'Service worker (sw.js) registrado');add(!!deferredPrompt,'Chrome permite instalar ahora');out.textContent=res.join('\n');})
+ .catch(function(){out.textContent=res.join('\n');});}
 var cfgTab='apariencia';
 function vConfig(m){
  m.appendChild(head('Configuración'));
@@ -416,6 +427,11 @@ function vConfig(m){
  // Preferencias
  put('general',h('div',{class:'card'},[h('h2',{},['Nombre de la app']),
   h('input',{class:'inp',maxlength:24,value:st.appName,style:'width:100%;max-width:320px',onchange:function(e){st.appName=e.target.value.trim()||'VicWeek';save();}})]));
+ var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
+ var dgo=h('div',{class:'sub',style:'white-space:pre-line;margin-top:8px'});
+ if(!standalone)put('general',h('div',{class:'card'},[h('h2',{},['Instalar app']),
+  deferredPrompt?h('button',{class:'btn btn-p',onclick:function(){deferredPrompt.prompt();deferredPrompt.userChoice.then(function(){deferredPrompt=null;render();});}},['Instalar en este dispositivo'])
+  :h('p',{class:'sub',style:'margin:0'},['Android (Chrome): menú ⋮ → "Instalar aplicación". iPhone (Safari): Compartir → "Añadir a pantalla de inicio".']),h('button',{class:'btn',style:'margin-top:10px',onclick:function(){diag(dgo);}},['Comprobar instalación']),dgo]));
  put('notas',h('div',{class:'card'},[h('h2',{},['Calificaciones']),
   h('label',{class:'row',style:'font-weight:600'},['Nota máxima de tu escala:',h('input',{class:'inp',type:'number',min:1,value:st.maxGrade,style:'width:80px',onchange:function(e){st.maxGrade=parseFloat(e.target.value)||20;save();}})])]));
 }
